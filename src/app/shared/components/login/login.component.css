@@ -1,0 +1,96 @@
+.intro-section {
+  background-image: url('https://source.unsplash.com/random/1920x1080');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 75px 95px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.intro-content-wrapper {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.intro-title {
+  color: #ffffff;
+  font-size: 41px;
+  font-weight: bold;
+  margin-bottom: 17px;
+}
+
+.intro-text {
+  color: #ffffff;
+  font-size: 19px;
+  margin-bottom: 0;
+}
+
+.form-section {
+  display: flex;
+  align-items: center;
+  padding: 100px;
+}
+
+.login-wrapper {
+  width: 300px;
+  max-width: 100%;
+}
+
+.login-title {
+  font-size: 30px;
+  color: #000;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.login-wrapper .form-control {
+  border: 0;
+  border-bottom: 1px solid #e7e7e7;
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 15px 10px;
+  margin-bottom: 7px;
+}
+
+.login-wrapper .form-control::-webkit-input-placeholder {
+  color: #b0adad;
+}
+
+.login-wrapper .form-control::-moz-placeholder {
+  color: #b0adad;
+}
+
+.login-wrapper .form-control:-ms-input-placeholder {
+  color: #b0adad;
+}
+
+.login-wrapper .form-control::-ms-input-placeholder {
+  color: #b0adad;
+}
+
+.login-wrapper .form-control::placeholder {
+  color: #b0adad;
+}
+
+.login-wrapper .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.login-wrapper .btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.login-wrapper-footer-text {
+  font-size: 14px;
+  text-align: center;
+}
