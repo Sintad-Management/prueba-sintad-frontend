@@ -1,1 +1,17 @@
-<p>tipo-documento works!</p>
+<div class="container mt-4">
+  <button class="btn btn-primary mb-3" (click)="abrirModal()">Nuevo Tipo de Documento</button>
+  <app-entity-table
+    [columns]="columns"
+    [data]="tiposDocumento"
+    (edit)="editarTipoDocumento($event)"
+    (delete)="eliminarTipoDocumento($event)"
+  ></app-entity-table>
+
+  <app-form-modal
+    *ngIf="isModalOpen"
+    [fields]="fields"
+    [entidad]="tipoDocumentoSeleccionado"
+    (formSubmit)="guardarTipoDocumento($event)"
+    (close)="cerrarModal()"
+  ></app-form-modal>
+</div>

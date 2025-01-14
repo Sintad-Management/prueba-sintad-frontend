@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgForOf, NgIf} from '@angular/common';
 
 @Component({
@@ -12,5 +12,8 @@ import {NgForOf, NgIf} from '@angular/common';
   styleUrl: './entity-table.component.css'
 })
 export class EntityTableComponent {
-
+  @Input() columns: { key: string; label: string }[] = [];
+  @Input() data: any[] = [];
+  @Output() edit = new EventEmitter<any>();
+  @Output() delete = new EventEmitter<any>();
 }

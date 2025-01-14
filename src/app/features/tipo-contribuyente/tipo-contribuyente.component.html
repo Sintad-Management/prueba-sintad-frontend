@@ -1,1 +1,17 @@
-<p>tipo-contribuyente works!</p>
+<div class="container mt-4">
+  <button class="btn btn-primary mb-3" (click)="abrirModal()">Nuevo Tipo de Contribuyente</button>
+  <app-entity-table
+    [columns]="columns"
+    [data]="tiposContribuyente"
+    (edit)="editarTipoContribuyente($event)"
+    (delete)="eliminarTipoContribuyente($event)"
+  ></app-entity-table>
+
+  <app-form-modal
+    *ngIf="isModalOpen"
+    [fields]="fields"
+    [entidad]="tipoContribuyenteSeleccionado"
+    (formSubmit)="guardarTipoContribuyente($event)"
+    (close)="cerrarModal()"
+  ></app-form-modal>
+</div>

@@ -1,1 +1,42 @@
-<p>form-modal works!</p>
+<div class="modal fade show d-block" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ entidad?.id ? 'Actualizar' : 'Crear' }}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group" *ngFor="let field of fields">
+            <label [for]="field.key">{{ field.label }}</label>
+            <input
+              *ngIf="field.type !== 'checkbox'"
+              [id]="field.key"
+              [formControlName]="field.key"
+              [type]="field.type"
+              [placeholder]="field.label"
+              class="form-control"
+            />
+            <div class="form-check" *ngIf="field.type === 'checkbox'">
+              <input
+                [id]="field.key"
+                [formControlName]="field.key"
+                type="checkbox"
+                class="form-check-input"
+              />
+              <label class="form-check-label" [for]="field.key">{{ field.label }}</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+              {{ entidad?.id ? 'Actualizar' : 'Crear' }}
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
