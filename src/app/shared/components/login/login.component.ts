@@ -48,9 +48,9 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/entidades']);
       },
       (error: HttpErrorResponse) => {
-        console.log('Error recibido:', error); // Depura la estructura del error
+        console.log('Error recibido:', error);
         if (error.status === 401) {
-          console.log('Contenido de error.error:', JSON.stringify(error.error, null, 2)); // Imprime el contenido como JSON
+          console.log('Contenido de error.error:', JSON.stringify(error.error, null, 2));
           const errorMessage = error.error?.message || 'Email o contraseña incorrectos';
           this.notificationService.showError(errorMessage);
         } else {

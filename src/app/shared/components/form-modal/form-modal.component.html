@@ -30,10 +30,12 @@
                 <label class="form-check-label" [for]="field.key">{{ field.label }}</label>
               </div>
               <select *ngSwitchCase="'select'" [id]="field.key" [formControlName]="field.key" class="form-control">
-                <option *ngFor="let option of (field.key === 'idTipoDocumento' ? tiposDocumento : tiposContribuyente)" [value]="option.id">
+                <option value="" disabled>Seleccione una opción</option>
+                <option *ngFor="let option of (field.key === 'tipoDocumentoId' ? tiposDocumento : tiposContribuyente)" [value]="option.id">
                   {{ option.nombre }}
                 </option>
               </select>
+
             </ng-container>
           </div>
           <div class="modal-footer">

@@ -9,6 +9,7 @@ interface ApiError {
   timestamp?: string;
   path?: string;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +18,9 @@ export class BaseService<T> {
   extraUrl: string = '';
   protected token: string | null = null;
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) {
+    this.setToken();
+  }
 
   protected buildPath() {
     return this.baseUrl + this.extraUrl;
@@ -51,6 +54,7 @@ export class BaseService<T> {
     if (this.token) {
       headers = headers.set('Authorization', `Bearer ${this.token}`);
     }
+    console.log('Headers utilizados en la solicitud:', headers.keys(), headers.get('Authorization'));
     return { headers };
   }
 
@@ -58,25 +62,26 @@ export class BaseService<T> {
     let errorMessage: string;
 
     if (error.error instanceof ErrorEvent) {
-      // Error del cliente
+      // Client-side error
       errorMessage = error.error.message;
     } else {
-      // Error del servidor
+      // Server-side error
       if (typeof error.error === 'object' && error.error !== null) {
-        // Si el error tiene un formato específico
-        errorMessage = error.error.message || 'Ha ocurrido un error desconocido';
+        // If the error has a specific format
+        errorMessage = error.error.message || 'An unknown error occurred';
       } else {
-        // Si el error es un string o tiene otro formato
-        errorMessage = error.message || 'Ha ocurrido un error desconocido';
+        // If the error is a string or has another format
+        errorMessage = error.message || 'An unknown error occurred';
       }
     }
-    // Devuelve el error con la estructura original más el mensaje formateado
+    // Return the error with the original structure plus the formatted message
     return throwError(() => ({
       originalError: error,
       message: errorMessage,
       status: error.status
     }));
   }
+
   getAll() {
     this.setToken();
     return this.http.get<T[]>(this.buildPath(), this.getHttpOptions()).pipe(catchError(this.handleError));

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EntityTableComponent } from '../../shared/components/entity-table/entity-table.component';
 import { FormModalComponent } from '../../shared/components/form-modal/form-modal.component';
 import { NgIf } from '@angular/common';
+import {TipoDocumento} from '../../core/models/tipoDocumento.model';
+import {TipoDocumentoService} from '../../core/services/tipo-documento.service';
 
 @Component({
   selector: 'app-tipo-documento',
@@ -14,15 +16,12 @@ import { NgIf } from '@angular/common';
   standalone: true,
   styleUrls: ['./tipo-documento.component.css']
 })
-export class TipoDocumentoComponent {
-  tiposDocumento = [
-    { idTipoDocumento: 1, codigo: 'DOC1', nombre: 'Documento 1', descripcion: 'Descripción 1', estado: true },
-    { idTipoDocumento: 2, codigo: 'DOC2', nombre: 'Documento 2', descripcion: 'Descripción 2', estado: false }
-  ];
+export class TipoDocumentoComponent implements OnInit {
+  tiposDocumento: TipoDocumento[] = [];
   isModalOpen = false;
-  tipoDocumentoSeleccionado: any = null;
+  tipoDocumentoSeleccionado: TipoDocumento | null = null;
   columns = [
-    { key: 'idTipoDocumento', label: 'ID' },
+    { key: 'id', label: 'ID' },
     { key: 'codigo', label: 'Código' },
     { key: 'nombre', label: 'Nombre' },
     { key: 'descripcion', label: 'Descripción' },
@@ -35,6 +34,20 @@ export class TipoDocumentoComponent {
     { key: 'estado', label: 'Estado', type: 'checkbox' }
   ];
 
+  constructor(private tipoDocumentoService: TipoDocumentoService) {}
+
+  ngOnInit(): void {
+    this.loadTiposDocumento();
+  }
+
+  loadTiposDocumento(): void {
+    this.tipoDocumentoService.getAll().subscribe(data => {
+      console.log('Datos obtenidos del backend:', data);
+
+      this.tiposDocumento = data;
+    });
+  }
+
   abrirModal(): void {
     this.isModalOpen = true;
   }
@@ -44,25 +57,27 @@ export class TipoDocumentoComponent {
     this.tipoDocumentoSeleccionado = null;
   }
 
-  guardarTipoDocumento(tipoDocumento: any): void {
+  guardarTipoDocumento(tipoDocumento: TipoDocumento): void {
     if (this.tipoDocumentoSeleccionado) {
-      const index = this.tiposDocumento.findIndex(td => td.idTipoDocumento === this.tipoDocumentoSeleccionado.idTipoDocumento);
-      if (index !== -1) {
-        this.tiposDocumento[index] = tipoDocumento;
-      }
+      this.tipoDocumentoService.update(this.tipoDocumentoSeleccionado.id, tipoDocumento).subscribe(() => {
+        this.loadTiposDocumento();
+      });
     } else {
-      tipoDocumento.idTipoDocumento = this.tiposDocumento.length + 1;
-      this.tiposDocumento.push(tipoDocumento);
+      this.tipoDocumentoService.create(tipoDocumento).subscribe(() => {
+        this.loadTiposDocumento();
+      });
     }
     this.cerrarModal();
   }
 
-  editarTipoDocumento(tipoDocumento: any): void {
+  editarTipoDocumento(tipoDocumento: TipoDocumento): void {
     this.tipoDocumentoSeleccionado = tipoDocumento;
     this.abrirModal();
   }
 
-  eliminarTipoDocumento(tipoDocumento: any): void {
-    this.tiposDocumento = this.tiposDocumento.filter(td => td.idTipoDocumento !== tipoDocumento.idTipoDocumento);
+  eliminarTipoDocumento(tipoDocumento: TipoDocumento): void {
+    this.tipoDocumentoService.delete(tipoDocumento.id).subscribe(() => {
+      this.loadTiposDocumento();
+    });
   }
 }

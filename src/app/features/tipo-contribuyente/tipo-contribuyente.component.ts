@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EntityTableComponent } from '../../shared/components/entity-table/entity-table.component';
 import { FormModalComponent } from '../../shared/components/form-modal/form-modal.component';
 import { NgIf } from '@angular/common';
+import {TipoContribuyente} from '../../core/models/tipoContribuyente.model';
+import {TipoContribuyenteService} from '../../core/services/tipo-contribuyente.service';
 
 @Component({
   selector: 'app-tipo-contribuyente',
@@ -14,15 +16,12 @@ import { NgIf } from '@angular/common';
   standalone: true,
   styleUrls: ['./tipo-contribuyente.component.css']
 })
-export class TipoContribuyenteComponent {
-  tiposContribuyente = [
-    { idTipoContribuyente: 1, nombre: 'Contribuyente 1', estado: true },
-    { idTipoContribuyente: 2, nombre: 'Contribuyente 2', estado: false }
-  ];
+export class TipoContribuyenteComponent implements OnInit {
+  tiposContribuyente: TipoContribuyente[] = [];
   isModalOpen = false;
-  tipoContribuyenteSeleccionado: any = null;
+  tipoContribuyenteSeleccionado: TipoContribuyente | null = null;
   columns = [
-    { key: 'idTipoContribuyente', label: 'ID' },
+    { key: 'id', label: 'ID' },
     { key: 'nombre', label: 'Nombre' },
     { key: 'estado', label: 'Estado' }
   ];
@@ -30,6 +29,18 @@ export class TipoContribuyenteComponent {
     { key: 'nombre', label: 'Nombre', type: 'text' },
     { key: 'estado', label: 'Estado', type: 'checkbox' }
   ];
+
+  constructor(private tipoContribuyenteService: TipoContribuyenteService) {}
+
+  ngOnInit(): void {
+    this.loadTiposContribuyente();
+  }
+
+  loadTiposContribuyente(): void {
+    this.tipoContribuyenteService.getAll().subscribe(data => {
+      this.tiposContribuyente = data;
+    });
+  }
 
   abrirModal(): void {
     this.isModalOpen = true;
@@ -40,25 +51,27 @@ export class TipoContribuyenteComponent {
     this.tipoContribuyenteSeleccionado = null;
   }
 
-  guardarTipoContribuyente(tipoContribuyente: any): void {
+  guardarTipoContribuyente(tipoContribuyente: TipoContribuyente): void {
     if (this.tipoContribuyenteSeleccionado) {
-      const index = this.tiposContribuyente.findIndex(tc => tc.idTipoContribuyente === this.tipoContribuyenteSeleccionado.idTipoContribuyente);
-      if (index !== -1) {
-        this.tiposContribuyente[index] = tipoContribuyente;
-      }
+      this.tipoContribuyenteService.update(this.tipoContribuyenteSeleccionado.id, tipoContribuyente).subscribe(() => {
+        this.loadTiposContribuyente();
+      });
     } else {
-      tipoContribuyente.idTipoContribuyente = this.tiposContribuyente.length + 1;
-      this.tiposContribuyente.push(tipoContribuyente);
+      this.tipoContribuyenteService.create(tipoContribuyente).subscribe(() => {
+        this.loadTiposContribuyente();
+      });
     }
     this.cerrarModal();
   }
 
-  editarTipoContribuyente(tipoContribuyente: any): void {
+  editarTipoContribuyente(tipoContribuyente: TipoContribuyente): void {
     this.tipoContribuyenteSeleccionado = tipoContribuyente;
     this.abrirModal();
   }
 
-  eliminarTipoContribuyente(tipoContribuyente: any): void {
-    this.tiposContribuyente = this.tiposContribuyente.filter(tc => tc.idTipoContribuyente !== tipoContribuyente.idTipoContribuyente);
+  eliminarTipoContribuyente(tipoContribuyente: TipoContribuyente): void {
+    this.tipoContribuyenteService.delete(tipoContribuyente.id).subscribe(() => {
+      this.loadTiposContribuyente();
+    });
   }
 }

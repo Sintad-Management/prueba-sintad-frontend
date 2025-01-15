@@ -1,5 +1,5 @@
 ﻿export interface TipoContribuyente {
-  idTipoContribuyente: number;
+  id: number;
   nombre: string;
   estado: boolean;
 }

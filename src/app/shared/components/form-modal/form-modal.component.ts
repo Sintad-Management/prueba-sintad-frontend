@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {Entidad} from '../../../core/models/entidad.model';
 import {TipoDocumento} from '../../../core/models/tipoDocumento.model';
-import {TipoContribuyente} from '../../../core/models/tipoContribuyente.entidad.model';
 
 @Component({
   selector: 'app-form-modal',

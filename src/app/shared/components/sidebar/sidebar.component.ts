@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   imports: [
     RouterLink,
     RouterLinkActive,
-    RouterOutlet
+    RouterOutlet,
   ],
   templateUrl: './sidebar.component.html',
   standalone: true,
@@ -14,4 +14,12 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 })
 export class SidebarComponent {
 
+  constructor(
+    private router: Router
+  ) { }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }

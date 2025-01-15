@@ -4,6 +4,8 @@
 
   //urls for the different endpoints
   authenticationURL:'/authentication',
-
+  tipoDocumentoURL:'/tipo-documentos',
+  tipoContribuyenteURL:'/tipo-contribuyentes',
+  entidadURL:'/entidades',
 
 }
