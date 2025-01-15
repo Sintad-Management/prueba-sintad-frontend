@@ -11,23 +11,30 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="form-group" *ngFor="let field of fields">
             <label [for]="field.key">{{ field.label }}</label>
-            <input
-              *ngIf="field.type !== 'checkbox'"
-              [id]="field.key"
-              [formControlName]="field.key"
-              [type]="field.type"
-              [placeholder]="field.label"
-              class="form-control"
-            />
-            <div class="form-check" *ngIf="field.type === 'checkbox'">
+            <ng-container [ngSwitch]="field.type">
               <input
+                *ngSwitchCase="'text'"
                 [id]="field.key"
                 [formControlName]="field.key"
-                type="checkbox"
-                class="form-check-input"
+                [type]="field.type"
+                [placeholder]="field.label"
+                class="form-control"
               />
-              <label class="form-check-label" [for]="field.key">{{ field.label }}</label>
-            </div>
+              <div class="form-check" *ngSwitchCase="'checkbox'">
+                <input
+                  [id]="field.key"
+                  [formControlName]="field.key"
+                  type="checkbox"
+                  class="form-check-input"
+                />
+                <label class="form-check-label" [for]="field.key">{{ field.label }}</label>
+              </div>
+              <select *ngSwitchCase="'select'" [id]="field.key" [formControlName]="field.key" class="form-control">
+                <option *ngFor="let option of (field.key === 'idTipoDocumento' ? tiposDocumento : tiposContribuyente)" [value]="option.id">
+                  {{ option.nombre }}
+                </option>
+              </select>
+            </ng-container>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" [disabled]="form.invalid">

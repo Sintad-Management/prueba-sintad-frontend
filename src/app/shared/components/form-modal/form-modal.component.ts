@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {Entidad} from '../../../core/models/entidad.model';
 import {TipoDocumento} from '../../../core/models/tipoDocumento.model';
 import {TipoContribuyente} from '../../../core/models/tipoContribuyente.entidad.model';
@@ -10,7 +10,9 @@ import {TipoContribuyente} from '../../../core/models/tipoContribuyente.entidad.
   imports: [
     ReactiveFormsModule,
     NgForOf,
-    NgIf
+    NgIf,
+    NgSwitchCase,
+    NgSwitch
   ],
   templateUrl: './form-modal.component.html',
   standalone: true,
@@ -19,6 +21,8 @@ import {TipoContribuyente} from '../../../core/models/tipoContribuyente.entidad.
 export class FormModalComponent implements OnChanges {
   @Input() fields: { key: string; label: string; type: string }[] = [];
   @Input() entidad: any = {};
+  @Input() tiposDocumento: any[] = [];
+  @Input() tiposContribuyente: any[] = [];
   @Output() formSubmit = new EventEmitter<any>();
   @Output() close = new EventEmitter<void>();
 
@@ -32,7 +36,8 @@ export class FormModalComponent implements OnChanges {
     this.entidad = this.entidad || {};
     this.form = this.fb.group({});
     this.fields.forEach(field => {
-      this.form.addControl(field.key, this.fb.control(this.entidad[field.key] || ''));
+      const value = field.key === 'estado' ? !!this.entidad[field.key] : this.entidad[field.key] || '';
+      this.form.addControl(field.key, this.fb.control(value));
     });
   }
 

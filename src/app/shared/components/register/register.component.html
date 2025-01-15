@@ -1,0 +1,98 @@
+<div class="register-container">
+  <div class="row g-0 h-100">
+    <!-- Sección izquierda -->
+    <div class="col-lg-6 d-none d-lg-block left-section">
+      <div class="d-flex flex-column justify-content-center h-100 px-4 py-5 text-white">
+        <h1 class="display-4 fw-bold mb-3">Crear una cuenta</h1>
+        <p class="lead">Únete a nuestra plataforma y descubre todas las funcionalidades.</p>
+      </div>
+    </div>
+
+    <!-- Sección derecha - Formulario -->
+    <div class="col-12 col-lg-6">
+      <div class="register-form-container d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-sm-10 col-md-8 mx-auto">
+              <div class="card shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                  <h2 class="fw-bold mb-4">Registro de Usuario</h2>
+                  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+                    <!-- Nombre -->
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Nombre completo</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        [(ngModel)]="user.name"
+                        required
+                        minlength="3"
+                        #name="ngModel"
+                        placeholder="Tu nombre completo">
+                      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger small mt-1">
+                        <div *ngIf="name.errors?.['required']">El nombre es requerido</div>
+                        <div *ngIf="name.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</div>
+                      </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        [(ngModel)]="user.email"
+                        required
+                        email
+                        #email="ngModel"
+                        placeholder="nombre@ejemplo.com">
+                      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger small mt-1">
+                        <div *ngIf="email.errors?.['required']">El email es requerido</div>
+                        <div *ngIf="email.errors?.['email']">Por favor ingresa un email válido</div>
+                      </div>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="mb-4">
+                      <label for="password" class="form-label">Contraseña</label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        [(ngModel)]="user.password"
+                        required
+                        minlength="6"
+                        #password="ngModel"
+                        placeholder="Crea una contraseña">
+                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger small mt-1">
+                        <div *ngIf="password.errors?.['required']">La contraseña es requerida</div>
+                        <div *ngIf="password.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      class="btn btn-primary w-100 mb-3"
+                      [disabled]="!registerForm.form.valid">
+                      Registrarse
+                    </button>
+
+                    <p class="text-center mb-0">
+                      ¿Ya tienes una cuenta?
+                      <a href="/login" class="text-primary text-decoration-none">Inicia sesión aquí</a>
+                    </p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

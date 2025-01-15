@@ -11,6 +11,8 @@
     *ngIf="isModalOpen"
     [fields]="fields"
     [entidad]="entidadSeleccionada"
+    [tiposDocumento]="tiposDocumento"
+    [tiposContribuyente]="tiposContribuyente"
     (formSubmit)="guardarEntidad($event)"
     (close)="cerrarModal()"
   ></app-form-modal>

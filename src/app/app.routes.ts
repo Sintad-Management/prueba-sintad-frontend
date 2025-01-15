@@ -5,6 +5,7 @@ import {TipoContribuyenteComponent} from './features/tipo-contribuyente/tipo-con
 import {EntidadComponent} from './features/entidad/entidad.component';
 import {AuthLayoutComponent} from './layout/auth-layout/auth-layout.component';
 import {MainLayoutComponent} from './layout/main-layout/main-layout.component';
+import {RegisterComponent} from './shared/components/register/register.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -14,6 +15,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
+      {path:'register', component:RegisterComponent}
     ],
   },
   {

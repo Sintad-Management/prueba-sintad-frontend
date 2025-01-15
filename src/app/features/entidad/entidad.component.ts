@@ -21,8 +21,14 @@ export class EntidadComponent {
   ];
   isModalOpen = false;
   entidadSeleccionada: any = null;
-  tiposDocumento = [];
-  tiposContribuyente = [];
+  tiposDocumento = [
+    { id: 1, nombre: 'DNI' },
+    { id: 2, nombre: 'RUC' }
+  ];
+  tiposContribuyente = [
+    { id: 1, nombre: 'Persona Natural' },
+    { id: 2, nombre: 'Persona Jurídica' }
+  ];
   columns = [
     { key: 'idEntidad', label: 'ID' },
     { key: 'razonSocial', label: 'Razón Social' },
