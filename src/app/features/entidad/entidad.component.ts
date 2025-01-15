@@ -1,3 +1,4 @@
+// src/app/features/entidad/entidad.component.ts
 import { Component, OnInit } from '@angular/core';
 import { EntityTableComponent } from '../../shared/components/entity-table/entity-table.component';
 import { FormModalComponent } from '../../shared/components/form-modal/form-modal.component';
@@ -74,15 +75,13 @@ export class EntidadComponent implements OnInit {
 
   loadTiposDocumento(): void {
     this.tipoDocumentoService.getAll().subscribe(data => {
-      console.log('Tipos de Documento:', data);
-      this.tiposDocumento = data;
+      this.tiposDocumento = data.map(d => ({ ...d, id: +d.id }));
     });
   }
 
   loadTiposContribuyente(): void {
     this.tipoContribuyenteService.getAll().subscribe(data => {
-      console.log('Tipos de Contribuyente:', data);
-      this.tiposContribuyente = data;
+      this.tiposContribuyente = data.map(c => ({ ...c, id: +c.id }));
     });
   }
 
@@ -97,20 +96,21 @@ export class EntidadComponent implements OnInit {
   }
 
   guardarEntidad(entidad: Entidad): void {
+    console.log('Datos recibidos para guardar:', entidad);
 
     const entidadToSave = {
       ...entidad,
-      tipoDocumentoId: entidad.tipoDocumento?.id || null,
-      tipoContribuyenteId: entidad.tipoContribuyente?.id || null
+      tipoDocumentoId: +entidad.tipoDocumentoId, // Convertir a número
+      tipoContribuyenteId: +entidad.tipoContribuyenteId
     };
 
-    if (!entidadToSave.tipoDocumentoId) {
-      console.error('El campo tipoDocumentoId no puede ser null');
+    if (entidadToSave.tipoDocumentoId === 0) {
+      console.error('El campo tipoDocumentoId no puede ser 0');
       return;
     }
 
-    if (!entidadToSave.tipoContribuyenteId) {
-      console.error('El campo tipoContribuyenteId no puede ser null');
+    if (entidadToSave.tipoContribuyenteId === 0) {
+      console.error('El campo tipoContribuyenteId no puede ser 0');
       return;
     }
 

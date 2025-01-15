@@ -6,8 +6,10 @@ export interface Entidad {
   razonSocial: string;
   nombreComercial: string;
   tipoDocumento?: TipoDocumento;
+  tipoDocumentoId: number;
   nroDocumento: string;
   tipoContribuyente?: TipoContribuyente;
+  tipoContribuyenteId: number;
   direccion: string;
   telefono: string;
   estado: boolean;
