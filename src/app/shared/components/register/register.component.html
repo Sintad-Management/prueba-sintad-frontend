@@ -1,6 +1,5 @@
 <div class="register-container">
   <div class="row g-0 h-100">
-    <!-- Sección izquierda -->
     <div class="col-lg-6 d-none d-lg-block left-section">
       <div class="d-flex flex-column justify-content-center h-100 px-4 py-5 text-white">
         <h1 class="display-4 fw-bold mb-3">Crear una cuenta</h1>
@@ -8,7 +7,6 @@
       </div>
     </div>
 
-    <!-- Sección derecha - Formulario -->
     <div class="col-12 col-lg-6">
       <div class="register-form-container d-flex align-items-center py-5">
         <div class="container">
@@ -18,7 +16,7 @@
                 <div class="card-body p-4 p-md-5">
                   <h2 class="fw-bold mb-4">Registro de Usuario</h2>
                   <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
-                    <!-- Nombre -->
+
                     <div class="mb-3">
                       <label for="name" class="form-label">Nombre completo</label>
                       <input
@@ -56,7 +54,6 @@
                       </div>
                     </div>
 
-                    <!-- Contraseña -->
                     <div class="mb-4">
                       <label for="password" class="form-label">Contraseña</label>
                       <input
@@ -84,8 +81,7 @@
 
                     <p class="text-center mb-0">
                       ¿Ya tienes una cuenta?
-                      <a href="/login" class="text-primary text-decoration-none">Inicia sesión aquí</a>
-                    </p>
+                      <a routerLink="/login" class="text-primary text-decoration-none">Inicia sesión aquí</a>                    </p>
                   </form>
                 </div>
               </div>
