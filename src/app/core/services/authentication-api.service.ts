@@ -40,4 +40,5 @@ export class AuthenticationApiService extends BaseService<User> {
         localStorage.setItem('user', JSON.stringify(user));
       }));
   }
+
 }
