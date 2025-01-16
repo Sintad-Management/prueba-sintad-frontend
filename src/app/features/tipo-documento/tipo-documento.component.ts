@@ -96,7 +96,11 @@ export class TipoDocumentoComponent implements OnInit {
         this.notificationService.showSuccess('Tipo de Documento eliminado con éxito');
       }, error => {
         console.error('Error al eliminar el Tipo de Documento:', error);
-        this.notificationService.showError('Error al eliminar el Tipo de Documento');
+        if (error.status === 400) {
+          this.notificationService.showError('No se puede eliminar el Tipo de Documento porque está siendo utilizado.');
+        } else {
+          this.notificationService.showError('Error al eliminar el Tipo de Documento');
+        }
       });
     }
   }

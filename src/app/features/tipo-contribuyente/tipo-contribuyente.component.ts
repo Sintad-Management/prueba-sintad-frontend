@@ -92,7 +92,11 @@ export class TipoContribuyenteComponent implements OnInit {
         this.notificationService.showSuccess('Tipo de Contribuyente eliminado con éxito');
       }, error => {
         console.error('Error al eliminar el Tipo de Contribuyente:', error);
-        this.notificationService.showError('Error al eliminar el Tipo de Contribuyente');
+        if (error.status === 400) {
+          this.notificationService.showError('No se puede eliminar el Tipo de Contribuyente porque está siendo utilizado.');
+        } else {
+          this.notificationService.showError('Error al eliminar el Tipo de Contribuyente');
+        }
       });
     }
   }
