@@ -5,6 +5,7 @@ import { NgIf } from '@angular/common';
 import { TipoContribuyente } from '../../core/models/tipoContribuyente.model';
 import { TipoContribuyenteService } from '../../core/services/tipo-contribuyente.service';
 import { NotificationService } from '../../shared/service/notification.service';
+import {Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-tipo-contribuyente',
@@ -26,8 +27,8 @@ export class TipoContribuyenteComponent implements OnInit {
     { key: 'estado', label: 'Estado' }
   ];
   fields = [
-    { key: 'nombre', label: 'Nombre', type: 'text' },
-    { key: 'estado', label: 'Estado', type: 'checkbox' }
+    { key: 'nombre', label: 'Nombre', type: 'text', validations: [Validators.required, Validators.minLength(3)] },
+    { key: 'estado', label: 'Estado', type: 'checkbox' },
   ];
 
   constructor(

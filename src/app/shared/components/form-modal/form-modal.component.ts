@@ -1,8 +1,6 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
-import {Entidad} from '../../../core/models/entidad.model';
-import {TipoDocumento} from '../../../core/models/tipoDocumento.model';
 
 @Component({
   selector: 'app-form-modal',
@@ -18,7 +16,7 @@ import {TipoDocumento} from '../../../core/models/tipoDocumento.model';
   styleUrl: './form-modal.component.css'
 })
 export class FormModalComponent implements OnChanges {
-  @Input() fields: { key: string; label: string; type: string }[] = [];
+  @Input() fields: { key: string; label: string; type: string, validations?: any[] }[] = [];
   @Input() entidad: any = {};
   @Input() tiposDocumento: any[] = [];
   @Input() tiposContribuyente: any[] = [];
@@ -36,7 +34,8 @@ export class FormModalComponent implements OnChanges {
     this.form = this.fb.group({});
     this.fields.forEach(field => {
       const value = field.key === 'estado' ? !!this.entidad[field.key] : this.entidad[field.key] || '';
-      this.form.addControl(field.key, this.fb.control(value));
+      const validators = field.validations || [];
+      this.form.addControl(field.key, this.fb.control(value, validators));
     });
   }
 

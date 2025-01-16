@@ -47,6 +47,9 @@
             </ng-container>
             <div *ngIf="form.get(field.key)?.invalid && (form.get(field.key)?.dirty || form.get(field.key)?.touched)" class="text-danger mt-1">
               <small *ngIf="form.get(field.key)?.errors?.['required']">Este campo es requerido.</small>
+              <small *ngIf="form.get(field.key)?.errors?.['minlength']">Debe tener al menos {{ form.get(field.key)?.errors?.['minlength'].requiredLength }} caracteres.</small>
+              <small *ngIf="form.get(field.key)?.errors?.['maxlength']">No puede tener más de {{ form.get(field.key)?.errors?.['maxlength'].requiredLength }} caracteres.</small>
+              <small *ngIf="form.get(field.key)?.errors?.['pattern']">El teléfono debe tener 9 dígitos.</small>
             </div>
           </div>
         </form>

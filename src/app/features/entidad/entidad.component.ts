@@ -9,6 +9,7 @@ import { TipoDocumento } from '../../core/models/tipoDocumento.model';
 import { TipoContribuyenteService } from '../../core/services/tipo-contribuyente.service';
 import { TipoDocumentoService } from '../../core/services/tipo-documento.service';
 import { NotificationService } from '../../shared/service/notification.service';
+import {Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-entidad',
@@ -39,13 +40,13 @@ export class EntidadComponent implements OnInit {
     {key: 'estado', label: 'Estado'}
   ];
   fields = [
-    {key: 'razonSocial', label: 'Razón Social', type: 'text'},
-    {key: 'nombreComercial', label: 'Nombre Comercial', type: 'text'},
-    {key: 'tipoDocumentoId', label: 'Tipo Documento', type: 'select'},
-    {key: 'nroDocumento', label: 'Nro Documento', type: 'text'},
-    {key: 'tipoContribuyenteId', label: 'Tipo Contribuyente', type: 'select'},
-    {key: 'direccion', label: 'Dirección', type: 'text'},
-    {key: 'telefono', label: 'Teléfono', type: 'text'},
+    {key: 'razonSocial', label: 'Razón Social', type: 'text', validations: [Validators.required, Validators.minLength(3)]},
+    {key: 'nombreComercial', label: 'Nombre Comercial', type: 'text', validations: [Validators.required, Validators.minLength(3)]},
+    {key: 'tipoDocumentoId', label: 'Tipo Documento', type: 'select', validations: [Validators.required]},
+    {key: 'nroDocumento', label: 'Nro Documento', type: 'text', validations: [Validators.required, Validators.minLength(8), Validators.maxLength(20)]},
+    {key: 'tipoContribuyenteId', label: 'Tipo Contribuyente', type: 'select', validations: [Validators.required]},
+    {key: 'direccion', label: 'Dirección', type: 'text', validations: [Validators.maxLength(255)]},
+    {key: 'telefono', label: 'Teléfono', type: 'text', validations: [Validators.pattern(/^\d{7,10}$/)]},
     {key: 'estado', label: 'Estado', type: 'checkbox'}
   ];
 

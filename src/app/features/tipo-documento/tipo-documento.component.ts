@@ -5,6 +5,7 @@ import { NgIf } from '@angular/common';
 import { TipoDocumento } from '../../core/models/tipoDocumento.model';
 import { TipoDocumentoService } from '../../core/services/tipo-documento.service';
 import { NotificationService } from '../../shared/service/notification.service';
+import {Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-tipo-documento',
@@ -28,9 +29,9 @@ export class TipoDocumentoComponent implements OnInit {
     { key: 'estado', label: 'Estado' }
   ];
   fields = [
-    { key: 'codigo', label: 'Código', type: 'text' },
-    { key: 'nombre', label: 'Nombre', type: 'text' },
-    { key: 'descripcion', label: 'Descripción', type: 'text' },
+    { key: 'codigo', label: 'Código', type: 'text', validations: [Validators.required, Validators.minLength(2)] },
+    { key: 'nombre', label: 'Nombre', type: 'text', validations: [Validators.required, Validators.minLength(3)] },
+    { key: 'descripcion', label: 'Descripción', type: 'text', validations: [Validators.maxLength(255)] },
     { key: 'estado', label: 'Estado', type: 'checkbox' }
   ];
 
