@@ -1,33 +1,49 @@
-<div class="d-flex flex-column h-100">
-  <div class="p-3 border-bottom">
-    <div class="d-flex align-items-center">
-      <img src="assets/sintad_logo.jpg" alt="Logo" class="logo me-2" style="height: 30px;">
-      <h3 class="m-0 fs-5">Gestión de Entidades</h3>
-    </div>
+<button class="btn btn-primary d-md-none m-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+  <i class="bi bi-list"></i>
+</button>
+
+<div class="offcanvas-md offcanvas-start h-100 bg-light" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+  <div class="offcanvas-header d-md-none">
+    <h5 class="offcanvas-title" id="sidebarMenuLabel">Gestión de Entidades</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <nav class="flex-grow-1 p-3">
-    <ul class="nav flex-column">
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" routerLink="/entidades" routerLinkActive="active">
-          <i class="bi bi-building me-2"></i>
-          <span>Entidades</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" routerLink="/tipo-contribuyente" routerLinkActive="active">
-          <i class="bi bi-people me-2"></i>
-          <span>Tipo de Contribuyentes</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" routerLink="/tipo-documento" routerLinkActive="active">
-          <i class="bi bi-file-text me-2"></i>
-          <span>Tipo de Documentos</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <div class="p-3 border-top mt-auto">
-    <button class="btn btn-danger w-100" (click)="logout()">Salir</button>
+
+  <div class="d-flex flex-column h-100">
+    <div class="p-3 border-bottom bg-white">
+      <div class="d-flex align-items-center">
+        <img src="assets/sintad_logo.jpg" alt="Logo" class="me-2" style="height: 40px;">
+        <h3 class="m-0 fs-4 fw-bold text-primary">Gestión de Entidades</h3>
+      </div>
+    </div>
+
+    <nav class="flex-grow-1 p-3">
+      <ul class="nav flex-column">
+        <li class="nav-item mb-2">
+          <a class="nav-link d-flex align-items-center py-2 px-3 rounded-3 text-dark hover-bg-primary hover-text-white transition" routerLink="/entidades" routerLinkActive="active bg-primary text-white">
+            <i class="bi bi-building me-3 fs-5"></i>
+            <span class="fw-medium">Entidades</span>
+          </a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link d-flex align-items-center py-2 px-3 rounded-3 text-dark hover-bg-primary hover-text-white transition" routerLink="/tipo-contribuyente" routerLinkActive="active bg-primary text-white">
+            <i class="bi bi-people me-3 fs-5"></i>
+            <span class="fw-medium">Tipo de Contribuyentes</span>
+          </a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link d-flex align-items-center py-2 px-3 rounded-3 text-dark hover-bg-primary hover-text-white transition" routerLink="/tipo-documento" routerLinkActive="active bg-primary text-white">
+            <i class="bi bi-file-text me-3 fs-5"></i>
+            <span class="fw-medium">Tipo de Documentos</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="p-3 border-top mt-auto">
+      <button class="btn btn-danger w-100 d-flex align-items-center justify-content-center" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-2"></i>
+        <span>Salir</span>
+      </button>
+    </div>
   </div>
 </div>

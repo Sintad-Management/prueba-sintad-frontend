@@ -1,4 +1,3 @@
-// src/app/features/entidad/entidad.component.ts
 import { Component, OnInit } from '@angular/core';
 import { EntityTableComponent } from '../../shared/components/entity-table/entity-table.component';
 import { FormModalComponent } from '../../shared/components/form-modal/form-modal.component';
@@ -9,6 +8,7 @@ import { TipoContribuyente } from '../../core/models/tipoContribuyente.model';
 import { TipoDocumento } from '../../core/models/tipoDocumento.model';
 import { TipoContribuyenteService } from '../../core/services/tipo-contribuyente.service';
 import { TipoDocumentoService } from '../../core/services/tipo-documento.service';
+import { NotificationService } from '../../shared/service/notification.service';
 
 @Component({
   selector: 'app-entidad',
@@ -29,7 +29,6 @@ export class EntidadComponent implements OnInit {
   tiposContribuyente: TipoContribuyente[] = [];
 
   columns = [
-    {key: 'idEntidad', label: 'ID'},
     {key: 'razonSocial', label: 'Razón Social'},
     {key: 'nombreComercial', label: 'Nombre Comercial'},
     {key: 'tipoDocumento.nombre', label: 'Tipo Documento'},
@@ -53,9 +52,9 @@ export class EntidadComponent implements OnInit {
   constructor(
     private entidadService: EntidadService,
     private tipoDocumentoService: TipoDocumentoService,
-    private tipoContribuyenteService: TipoContribuyenteService
-  ) {
-  }
+    private tipoContribuyenteService: TipoContribuyenteService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadEntidades();
@@ -85,7 +84,6 @@ export class EntidadComponent implements OnInit {
     });
   }
 
-
   abrirModal(): void {
     this.isModalOpen = true;
   }
@@ -95,12 +93,12 @@ export class EntidadComponent implements OnInit {
     this.entidadSeleccionada = null;
   }
 
-  guardarEntidad(entidad: Entidad): void {
+  async guardarEntidad(entidad: Entidad): Promise<void> {
     console.log('Datos recibidos para guardar:', entidad);
 
     const entidadToSave = {
       ...entidad,
-      tipoDocumentoId: +entidad.tipoDocumentoId, // Convertir a número
+      tipoDocumentoId: +entidad.tipoDocumentoId,
       tipoContribuyenteId: +entidad.tipoContribuyenteId
     };
 
@@ -119,28 +117,49 @@ export class EntidadComponent implements OnInit {
         () => {
           this.loadEntidades();
           this.cerrarModal();
+          this.notificationService.showSuccess('Entidad actualizada con éxito');
         },
-        error => console.error('Error al actualizar la entidad:', error)
+        error => {
+          console.error('Error al actualizar la entidad:', error);
+          this.notificationService.showError('Error al actualizar la entidad');
+        }
       );
     } else {
       this.entidadService.create(entidadToSave).subscribe(
         () => {
           this.loadEntidades();
           this.cerrarModal();
+          this.notificationService.showSuccess('Entidad creada con éxito');
         },
-        error => console.error('Error al crear la entidad:', error)
+        error => {
+          console.error('Error al crear la entidad:', error);
+          this.notificationService.showError('Error al crear la entidad');
+        }
       );
     }
   }
 
-  editarEntidad(entidad: Entidad): void {
-    this.entidadSeleccionada = entidad;
-    this.abrirModal();
+  async editarEntidad(entidad: Entidad): Promise<void> {
+    const confirmed = await this.notificationService.showConfirmation('¿Desea editar esta entidad?');
+    if (confirmed) {
+      this.entidadSeleccionada = entidad;
+      this.abrirModal();
+    }
   }
 
-  eliminarEntidad(entidad: Entidad): void {
-    this.entidadService.delete(entidad.idEntidad).subscribe(() => {
-      this.loadEntidades();
-    });
+  async eliminarEntidad(entidad: Entidad): Promise<void> {
+    const confirmed = await this.notificationService.showConfirmation('¿Desea eliminar esta entidad?');
+    if (confirmed) {
+      this.entidadService.delete(entidad.idEntidad).subscribe(
+        () => {
+          this.loadEntidades();
+          this.notificationService.showSuccess('Entidad eliminada con éxito');
+        },
+        error => {
+          console.error('Error al eliminar la entidad:', error);
+          this.notificationService.showError('Error al eliminar la entidad');
+        }
+      );
+    }
   }
 }

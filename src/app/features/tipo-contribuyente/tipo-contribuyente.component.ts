@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { EntityTableComponent } from '../../shared/components/entity-table/entity-table.component';
 import { FormModalComponent } from '../../shared/components/form-modal/form-modal.component';
 import { NgIf } from '@angular/common';
-import {TipoContribuyente} from '../../core/models/tipoContribuyente.model';
-import {TipoContribuyenteService} from '../../core/services/tipo-contribuyente.service';
+import { TipoContribuyente } from '../../core/models/tipoContribuyente.model';
+import { TipoContribuyenteService } from '../../core/services/tipo-contribuyente.service';
+import { NotificationService } from '../../shared/service/notification.service';
 
 @Component({
   selector: 'app-tipo-contribuyente',
@@ -21,7 +22,6 @@ export class TipoContribuyenteComponent implements OnInit {
   isModalOpen = false;
   tipoContribuyenteSeleccionado: TipoContribuyente | null = null;
   columns = [
-    { key: 'id', label: 'ID' },
     { key: 'nombre', label: 'Nombre' },
     { key: 'estado', label: 'Estado' }
   ];
@@ -30,7 +30,10 @@ export class TipoContribuyenteComponent implements OnInit {
     { key: 'estado', label: 'Estado', type: 'checkbox' }
   ];
 
-  constructor(private tipoContribuyenteService: TipoContribuyenteService) {}
+  constructor(
+    private tipoContribuyenteService: TipoContribuyenteService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadTiposContribuyente();
@@ -55,23 +58,41 @@ export class TipoContribuyenteComponent implements OnInit {
     if (this.tipoContribuyenteSeleccionado) {
       this.tipoContribuyenteService.update(this.tipoContribuyenteSeleccionado.id, tipoContribuyente).subscribe(() => {
         this.loadTiposContribuyente();
+        this.notificationService.showSuccess('Tipo de Contribuyente actualizado con éxito');
+      }, error => {
+        console.error('Error al actualizar el Tipo de Contribuyente:', error);
+        this.notificationService.showError('Error al actualizar el Tipo de Contribuyente');
       });
     } else {
       this.tipoContribuyenteService.create(tipoContribuyente).subscribe(() => {
         this.loadTiposContribuyente();
+        this.notificationService.showSuccess('Tipo de Contribuyente creado con éxito');
+      }, error => {
+        console.error('Error al crear el Tipo de Contribuyente:', error);
+        this.notificationService.showError('Error al crear el Tipo de Contribuyente');
       });
     }
     this.cerrarModal();
   }
 
-  editarTipoContribuyente(tipoContribuyente: TipoContribuyente): void {
-    this.tipoContribuyenteSeleccionado = tipoContribuyente;
-    this.abrirModal();
+  async editarTipoContribuyente(tipoContribuyente: TipoContribuyente): Promise<void> {
+    const confirmed = await this.notificationService.showConfirmation('¿Desea editar este Tipo de Contribuyente?');
+    if (confirmed) {
+      this.tipoContribuyenteSeleccionado = tipoContribuyente;
+      this.abrirModal();
+    }
   }
 
-  eliminarTipoContribuyente(tipoContribuyente: TipoContribuyente): void {
-    this.tipoContribuyenteService.delete(tipoContribuyente.id).subscribe(() => {
-      this.loadTiposContribuyente();
-    });
+  async eliminarTipoContribuyente(tipoContribuyente: TipoContribuyente): Promise<void> {
+    const confirmed = await this.notificationService.showConfirmation('¿Desea eliminar este Tipo de Contribuyente?');
+    if (confirmed) {
+      this.tipoContribuyenteService.delete(tipoContribuyente.id).subscribe(() => {
+        this.loadTiposContribuyente();
+        this.notificationService.showSuccess('Tipo de Contribuyente eliminado con éxito');
+      }, error => {
+        console.error('Error al eliminar el Tipo de Contribuyente:', error);
+        this.notificationService.showError('Error al eliminar el Tipo de Contribuyente');
+      });
+    }
   }
 }

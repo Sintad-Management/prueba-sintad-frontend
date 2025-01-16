@@ -54,7 +54,7 @@ export class BaseService<T> {
     if (this.token) {
       headers = headers.set('Authorization', `Bearer ${this.token}`);
     }
-    console.log('Headers utilizados en la solicitud:', headers.keys(), headers.get('Authorization'));
+    //console.log('Headers utilizados en la solicitud:', headers.keys(), headers.get('Authorization'));
     return { headers };
   }
 

@@ -22,4 +22,16 @@ export class NotificationService {
       confirmButtonText: 'OK'
     });
   }
+
+
+  showConfirmation(message: string): Promise<boolean> {
+    return Swal.fire({
+      title: 'Confirmación',
+      text: message,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No'
+    }).then(result => result.isConfirmed);
+  }
 }
